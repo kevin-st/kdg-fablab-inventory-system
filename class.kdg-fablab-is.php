@@ -1,5 +1,5 @@
 <?php
-  class KdGFablab {
+  class KdGFablab_IS {
     private static $initiated = false;
 
     /**
@@ -18,7 +18,7 @@
     private static function init_hooks() {
       self::$initiated = true;
 
-      add_filter('pre_get_posts', array('KdGFablab', 'query_post_type'));
+      add_filter('pre_get_posts', array('KdGFablab_IS', 'query_post_type'));
     }
 
     public static function query_post_type($query) {
