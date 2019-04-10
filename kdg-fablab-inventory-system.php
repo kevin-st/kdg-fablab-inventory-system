@@ -20,9 +20,15 @@
   define('KDG_FABLAB_IS_PLUGIN_DIR', plugin_dir_path(__FILE__));
   define('KDG_FABLAB_IS_PLUGIN_PREFIX', 'kdg_fablab_is_');
 
+  // requirements
+  require_once(KDG_FABLAB_IS_PLUGIN_DIR . 'class.kdg-fablab.php');
+
   // define hooks
   register_activation_hook(__FILE__, 'plugin_activation'); // execute on activation
   register_deactivation_hook(__FILE__, 'plugin_deactivation'); // execute on deactivation
+
+  // execute KdGFablab.init() when plugin is initialized
+  add_action('init', array('KdGFablab', 'init'));
 
   // functions
   /**
