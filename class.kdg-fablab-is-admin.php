@@ -11,9 +11,9 @@
     private static function init_hooks() {
       self::$initiated = true;
 
-
       add_action('admin_notices', array('KdGFablab_IS_Admin', 'kdg_fablab_is_admin_notice'));
-      //add_action('add_meta_boxes', array('KdGFablab_IS_Admin', 'kdg_fablab_is_custom_fields_to_edit'));
+      add_action('add_meta_boxes', array('KdGFablab_IS_Admin', 'kdg_fablab_is_custom_fields_to_edit'));
+      //add_action('save_post', array('KdGFablab_IS_Admin', 'kdg_fablab_is_save_custom_fields_data'), 10, 2 );
     }
 
     /**
@@ -26,6 +26,9 @@
           <p>
             Om nieuwe toestellen toe te voegen, klik op <strong>Toestellen</strong> in het menu.
           </p>
+          <p>
+            Om een nieuwe workshop toe te voegen, klik op <strong>Workshops</strong>.
+          </p>
         </div>
         <?php
           // delete the transient, so it only gets displayed once
@@ -34,19 +37,32 @@
     }
 
     public static function kdg_fablab_is_custom_fields_to_edit() {
-      //add_meta_box('test_field', "Custom test field", array('KdGFablab_IS_Admin', 'kdg_fablab_is_show_custom_fields'), 'machine', 'side', 'high');
+      $prfx = "prfx_kdg_fablab_";
+
+      if (defined('KDG_FABLAB_IS_PLUGIN_PREFIX')) {
+        $prfx = KDG_FABLAB_IS_PLUGIN_PREFIX;
+      }
+
+      add_meta_box(
+        ($prfx . 'workshop'),
+        "Opkomende workshop(s)",
+        array('KdGFablab_IS_Admin', 'kdg_fablab_is_show_custom_fields'),
+        'machine',
+        'side'
+      );
     }
 
     public static function kdg_fablab_is_show_custom_fields($post) {
-      /*wp_nonce_field(array('KdGFablab_IS_Admin', 'kdg_fablab_test_meta_box_nonce'));
-      $value = get_post_meta($post->ID, '_test_field_value_key', true);
+      wp_nonce_field(basename(__FILE__), 'kdg_fablab_is_nonce_field');
 
-      echo '<label for="kdg_fablab_is_test_field">Test field adress</label>';
-      echo '<input
-              type="email"
-              id="kdg_fablab_is_test_field"
-              name="kdg_fablab_is_test_field"
-              value="' . esc_attr($value) . '"
-              size="25" />';*/
+      $value = esc_attr(get_post_meta($post->ID, '_' . KDG_FABLAB_IS_PLUGIN_PREFIX . 'value_key', true));
+      ?>
+      <p>
+        <label for="kdg-fablab-workshop"><?php _e("Voeg de naam van een workshop toe waarbij dit apparaat wordt gebruikt.", 'example' ); ?></label>
+      </p>
+      <p>
+        <input class="widefat" type="text" name="kdg-fablab-workshop" id="kdg-fablab-workshop" value="<?php echo $value; ?>" size="30" />
+      </p>
+      <?php
     }
   }
