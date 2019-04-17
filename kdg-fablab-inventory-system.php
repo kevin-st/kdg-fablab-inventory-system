@@ -42,7 +42,7 @@
   /**
    * Actions to perform on plugin activation
    */
-  function plugin_activation() {
+  function kdg_fablab_is_plugin_activation() {
     // code to be executed when plugin is activated
     set_transient('kdg-fablab-is-admin-notice', true, 5);
   }
@@ -50,6 +50,6 @@
   /**
    * Actions to perform on plugin deactivation
    */
-  function plugin_deactivation() {
+  function kdg_fablab_is_plugin_deactivation() {
     // code to be executed when plugin is deactivated
   }
