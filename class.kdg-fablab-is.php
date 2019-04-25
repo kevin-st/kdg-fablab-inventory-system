@@ -1,12 +1,13 @@
 <?php
   class KdGFablab_IS {
-    private static $initiated = false;
+    private static $_initiated = false;
+    private static $_posts_per_page = 6; 
 
     /**
      * Initialize the plugin
      */
      public static function init() {
-       if (!self::$initiated) {
+       if (!self::$_initiated) {
          self::init_hooks();
          self::register_custom_post_types();
          self::register_custom_taxonomies();
@@ -17,28 +18,15 @@
       * Initialize WordPress hooks
       */
     private static function init_hooks() {
-      self::$initiated = true;
+      self::$_initiated = true;
 
       add_filter("pre_get_posts", array("KdGFablab_IS", "query_post_type"));
     }
 
     public static function query_post_type($query) {
-      if (is_category()) {
-        $post_type = get_query_var("post_type");
-
-        if ($post_type) {
-          $post_type = $post_type;
-        } else {
-          $post_type = [
-            "nav_menu_item",
-            "post",
-            "toestellen"
-          ];
-        }
-
-        $query->set("post_type", $post_type);
-        return $query;
-      }
+      if ($query->is_main_query() && !is_admin() && (is_post_type_archive('machine'))) {
+  	    $query->set('posts_per_page', self::$_posts_per_page);
+  	  }
     }
 
     /**
@@ -86,6 +74,8 @@
           "supports" => [ "title", "editor", "excerpt", "thumbnail" ],
           "rewrite" => ["slug" => "workshops"]
         ]);
+
+      flush_rewrite_rules();
     }
 
     /**
