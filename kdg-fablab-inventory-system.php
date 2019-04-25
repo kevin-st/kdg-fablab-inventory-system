@@ -24,8 +24,8 @@
   require_once(KDG_FABLAB_IS_PLUGIN_DIR . 'class.kdg-fablab-is.php');
 
   // define hooks
-  register_activation_hook(__FILE__, 'plugin_activation'); // execute on activation
-  register_deactivation_hook(__FILE__, 'plugin_deactivation'); // execute on deactivation
+  register_activation_hook(__FILE__, 'kdg_fablab_is_plugin_activation'); // execute on activation
+  register_deactivation_hook(__FILE__, 'kdg_fablab_is_plugin_deactivation'); // execute on deactivation
 
   // execute KdGFablab_IS.init() when plugin is initialized
   add_action('init', array('KdGFablab_IS', 'init'));
