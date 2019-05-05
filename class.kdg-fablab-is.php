@@ -1,7 +1,7 @@
 <?php
   class KdGFablab_IS {
     private static $_initiated = false;
-    private static $_posts_per_page = 6; 
+    private static $_posts_per_page = 6;
 
     /**
      * Initialize the plugin
@@ -9,8 +9,8 @@
      public static function init() {
        if (!self::$_initiated) {
          self::init_hooks();
-         self::register_custom_post_types();
-         self::register_custom_taxonomies();
+         self::kdg_fablab_is_register_custom_post_types();
+         self::kdg_fablab_is_register_custom_taxonomies();
        }
      }
 
@@ -20,11 +20,11 @@
     private static function init_hooks() {
       self::$_initiated = true;
 
-      add_filter("pre_get_posts", array("KdGFablab_IS", "query_post_type"));
+      add_filter("pre_get_posts", array("KdGFablab_IS", "kdg_fablab_is_query_post_type"));
     }
 
-    public static function query_post_type($query) {
-      if ($query->is_main_query() && !is_admin() && (is_post_type_archive('machine'))) {
+    public static function kdg_fablab_is_query_post_type($query) {
+      if ($query->is_main_query() && !is_admin() && (is_post_type_archive('machine') || is_post_type_archive('workshop'))) {
   	    $query->set('posts_per_page', self::$_posts_per_page);
   	  }
     }
@@ -32,7 +32,7 @@
     /**
      * Enable custom post types for this plugin.
      */
-    private static function register_custom_post_types() {
+    private static function kdg_fablab_is_register_custom_post_types() {
       // machine post type
       register_post_type("machine",
         [
@@ -81,7 +81,7 @@
     /**
      * Enable custom taxonomies for this plugin.
      */
-    private static function register_custom_taxonomies() {
+    private static function kdg_fablab_is_register_custom_taxonomies() {
       // machine/workshop taxonomy
       register_taxonomy("kdg_fablab_is_type", [ "machine", "workshop" ], [
         "hierarchical" => true,
