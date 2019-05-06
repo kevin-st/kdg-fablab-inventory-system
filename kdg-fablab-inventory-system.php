@@ -48,10 +48,7 @@
       return;
     }
 
-    // if setting is not defined
-    if (get_option("kdg_fablab_is_posts_per_page") === NULL) {
-      update_option("kdg_fablab_is_posts_per_page", "5");
-    }
+    kdg_fablab_is_update_settings();
 
     set_transient('kdg-fablab-is-admin-notice', true, 5);
 
@@ -85,4 +82,11 @@
    */
   function kdg_fablab_is_plugin_deactivation() {
     // code to be executed when plugin is deactivated
+  }
+
+  /**
+   * Initialize and update settings for the inventory plugin
+   */
+  function kdg_fablab_is_update_settings() {
+    update_option("kdg_fablab_is_posts_per_page", "4");
   }
