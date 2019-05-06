@@ -44,7 +44,35 @@
    */
   function kdg_fablab_is_plugin_activation() {
     // code to be executed when plugin is activated
+    if (!current_user_can('activate_plugins')) {
+      return;
+    }
+
     set_transient('kdg-fablab-is-admin-notice', true, 5);
+
+    global $wpdb;
+
+    if ($wpdb->get_row("SELECT post_name FROM $wpdb->posts WHERE post_name = 'toestellen'", 'ARRAY_A') === NULL) {
+      set_transient("kdg-fablab-is-admin-notice-page-machines-made", true, 5);
+
+      wp_insert_post([
+        "post_title"    => "Toestellen",
+        "post_status"   => "publish",
+        "post_author"   => 1,
+        "post_type"     => "page"
+      ]);
+    }
+
+    if ($wpdb->get_row("SELECT post_name FROM $wpdb->posts WHERE post_name = 'workshops'", 'ARRAY_A') === NULL) {
+      set_transient("kdg-fablab-is-admin-notice-page-workshops-made", true, 5);
+
+      wp_insert_post([
+        "post_title"    => "Workshops",
+        "post_status"   => "publish",
+        "post_author"   => 1,
+        "post_type"     => "page"
+      ]);
+    }
   }
 
   /**

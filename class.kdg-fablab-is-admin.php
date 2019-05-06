@@ -19,18 +19,48 @@
      */
     public static function kdg_fablab_is_admin_notice() {
       if (get_transient('kdg-fablab-is-admin-notice')) {
-        ?>
+      ?>
+      <div class="updated notice-is-dismissible">
+        <p>
+          Om nieuwe toestellen toe te voegen, klik op <strong>Toestellen</strong> in het menu.
+        </p>
+        <p>
+          Om een nieuwe workshop toe te voegen, klik op <strong>Workshops</strong>.
+        </p>
+      </div>
+      <?php
+        // delete the transient, so it only gets displayed once
+        delete_transient('kdg-fablab-is-admin-notice');
+      }
+
+      if (get_transient('kdg-fablab-is-admin-notice-page-machines-made')) {
+      ?>
         <div class="updated notice-is-dismissible">
           <p>
-            Om nieuwe toestellen toe te voegen, klik op <strong>Toestellen</strong> in het menu.
+            Toestelpagina aangemaakt!
           </p>
           <p>
-            Om een nieuwe workshop toe te voegen, klik op <strong>Workshops</strong>.
+            Om deze pagina toe te voegen aan het menu, ga naar: Weegave > Menu's.
           </p>
         </div>
-        <?php
-          // delete the transient, so it only gets displayed once
-          delete_transient('kdg-fablab-is-admin-notice');
+      <?php
+        // delete the transient, so it only gets displayed once
+        delete_transient('kdg-fablab-is-admin-notice-page-machines-made');
+      }
+
+      if (get_transient('kdg-fablab-is-admin-notice-page-workshops-made')) {
+      ?>
+        <div class="updated notice-is-dismissible">
+          <p>
+            Workshoppagina aangemaakt!
+          </p>
+          <p>
+            Om deze pagina toe te voegen aan het menu, ga naar: Weegave > Menu's.
+          </p>
+        </div>
+      <?php
+        // delete the transient, so it only gets displayed once
+        delete_transient('kdg-fablab-is-admin-notice-page-workshops-made');
       }
     }
   }
