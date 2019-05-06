@@ -48,6 +48,11 @@
       return;
     }
 
+    // if setting is not defined
+    if (get_option("kdg_fablab_is_posts_per_page") === NULL) {
+      update_option("kdg_fablab_is_posts_per_page", "5");
+    }
+
     set_transient('kdg-fablab-is-admin-notice', true, 5);
 
     global $wpdb;

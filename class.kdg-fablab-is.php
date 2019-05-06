@@ -1,7 +1,6 @@
 <?php
   class KdGFablab_IS {
     private static $_initiated = false;
-    private static $_posts_per_page = 6;
 
     /**
      * Initialize the plugin
@@ -25,7 +24,7 @@
 
     public static function kdg_fablab_is_query_post_type($query) {
       if ($query->is_main_query() && !is_admin() && (is_post_type_archive('machine') || is_post_type_archive('workshop'))) {
-  	    $query->set('posts_per_page', self::$_posts_per_page);
+  	    $query->set('posts_per_page', get_option("kdg_fablab_is_posts_per_page"));
   	  }
     }
 
