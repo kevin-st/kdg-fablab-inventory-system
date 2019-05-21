@@ -14,6 +14,9 @@
       add_action("admin_init", array("KdGFablab_IS_Admin", "kdg_fablab_is_admin_register_fablab_settings"));
       add_action("admin_menu", array("KdGFablab_IS_Admin", "kdg_fablab_is_admin_settings_menu"));
       add_action('admin_notices', array('KdGFablab_IS_Admin', 'kdg_fablab_is_admin_notice'));
+      add_action("manage_workshop_posts_custom_column", array("KdGFablab_IS_Admin", "kdg_fablab_is_manage_admin_columns_data"), 10, 2);
+
+      add_filter('manage_workshop_posts_columns', array("KdGFablab_IS_Admin", "kdg_fablab_is_manage_admin_columns"));
     }
 
     /**
@@ -69,6 +72,42 @@
       </form>
     </div>
     <?php
+    }
+
+    /**
+     * Add admin columns to workshops overview (admin)
+     */
+    public static function kdg_fablab_is_manage_admin_columns() {
+      $columns['title'] = "Titel";
+      $columns['taxonomy-kdg_fablab_is_type'] = "Type";
+
+      $columns['workshop-date'] = "Datum";
+      $columns["workshop-start"] = "Startuur";
+      $columns['workshop-end'] = "Einduur";
+
+      return $columns;
+    }
+
+    /**
+     * Fetch data for each custom column in reservation overview (admin)
+     */
+    public static function kdg_fablab_is_manage_admin_columns_data($column, $post_id) {
+      switch($column) {
+        case "workshop-date":
+          echo get_field("workshop_datum", $post_id, true);
+          break;
+
+        case "workshop-start":
+          echo get_field("start_tijd", $post_id, true);
+          break;
+
+        case "workshop-end":
+          echo get_field("eind_tijd", $post_id, true);
+          break;
+
+        default:
+          break;
+      }
     }
 
     /**
